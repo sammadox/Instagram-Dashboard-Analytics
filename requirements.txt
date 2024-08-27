@@ -1,1 +1,9 @@
+streamlit
+altair
+pandas
+pydeck
 matplotlib
+seaborn
+Pillow
+requests
+apify-client
