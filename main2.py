@@ -2,6 +2,7 @@ import json
 import csv
 from langdetect import detect
 import pycountry
+from FollowersLanguage import get_language_from_country_code
 
 def get_country_code(country_name):
     try:
@@ -134,6 +135,7 @@ def extract_user_data(json_filename):
             text = comment.get("text")
             nat=TextToNat(text)
             country_code=get_country_code(nat)
+            lang=get_language_from_country_code(country_code)
             if username:
                 # Store data in the dictionary, avoiding repetition
                 if username not in user_data:
@@ -141,18 +143,19 @@ def extract_user_data(json_filename):
                         'text': text,
                         'profile_pic_url': profile_pic_url,
                         'nationality':nat,
-                        'country_code':country_code
+                        'country_code':country_code,
+                        'language':lang
                     }
 
     # Write the user data to a CSV file
     with open(output_csv_file, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
         # Write the header
-        writer.writerow(['username', 'text', 'profile_pic_url','nationality','country_code'])
+        writer.writerow(['username', 'text', 'profile_pic_url','nationality','country_code','language'])
 
         # Write the data for each user
         for username, data in user_data.items():
-            writer.writerow([username, data['text'], data['profile_pic_url'],data['nationality'],data['country_code']])
+            writer.writerow([username, data['text'], data['profile_pic_url'],data['nationality'],data['country_code'],data['language']])
 
     # Print the number of unique usernames extracted
     print(f"Extracted {len(user_data)} unique users to {output_csv_file}")

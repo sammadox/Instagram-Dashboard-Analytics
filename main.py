@@ -17,7 +17,7 @@ from AccountsFollowersMetrics import get_followers_count_from_file,get_followers
 from FollowerEngagementMetrics import *
 from main2 import extract_user_data
 from parse_scraper import read_csv_and_create_data_structure
-
+from col7 import *
 def display_markdown(value):
     st.markdown(
         f"""
@@ -444,10 +444,19 @@ with st.expander("Follower Demographics"):
     with col7:
     # Sample data
         st.markdown("### Top Follower Languages")
-        labels = ['English', 'Spanish', 'French', 'German']
-        sizes = [100, 80, 50, 30]
-        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99']  # Custom colors
+        labels =replace_long_items(language_counts.index.tolist())
+        sizes = language_counts.values.tolist()
+        colors = plt.get_cmap('tab10').colors  # Using a colormap with distinct colors
 
+        # Ensure colors list is the same length as labels
+        if len(colors) < num_languages:
+            colors = colors * (num_languages // len(colors) + 1)
+        colors = colors[:num_languages]
+
+        # Convert colors to hex format
+        colors_hex = [mcolors.to_hex(c) for c in colors]
+
+# Print the resul
         # Create a pie chart
         fig, ax = plt.subplots(figsize=(8, 6))  # Set figure size
 
@@ -456,7 +465,7 @@ with st.expander("Follower Demographics"):
             return f'{pct:.1f}%'
 
         # Plot pie chart
-        wedges, texts, autotexts = ax.pie(sizes, labels=labels, colors=colors, autopct=make_autopct, startangle=140,
+        wedges, texts, autotexts = ax.pie(sizes, labels=labels, colors=colors_hex, autopct=make_autopct, startangle=140,
                                         wedgeprops=dict(edgecolor='w', linewidth=1, width=0.4))  # Remove background and add style
 
         # Style the text for better readability
