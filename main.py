@@ -14,7 +14,8 @@ from scraper import *
 from scraperPost import *
 from AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
 from FollowerEngagementMetrics import *
-
+from main2 import extract_user_data
+from parse_scraper import read_csv_and_create_data_structure
 def display_markdown(value):
     st.markdown(
         f"""
@@ -145,7 +146,9 @@ if 'post3like' not in st.session_state:
 
 
 def button_action():
-    
+    extract_user_data('data0.5.json')
+    st.session_state.geoData=''
+    st.session_state.geoData=read_csv_and_create_data_structure('user_data.csv')
     st.session_state.FollowerCount= get_followers_count_from_file('data.json')  # Change this to whatever new text you want
     st.session_state.FollowerGrowthRate = get_followers_growth_from_file('data.json') 
 
@@ -363,13 +366,8 @@ with st.expander("Follower Demographics"):
 
     with col5:
     # Sample data
-        data = [
-            {"country": "United States", "index": 0.85},
-            {"country": "India", "index": 0.75},
-            {"country": "Brazil", "index": 0.68},
-            {"country": "United Kingdom", "index": 0.62},
-            {"country": "Japan", "index": 0.55},
-        ]
+        print(st.session_state.geoData)
+        data =st.session_state.geoData
 
         df = pd.DataFrame(data)
 
