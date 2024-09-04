@@ -341,6 +341,16 @@ with st.expander("Followers Overview", expanded=True):
 # Add a horizontal line to separate sections
 
 with st.expander("Follower Demographics"):
+    st.info("""
+    In this section, you'll explore the demographic breakdown of your followers, offering key insights into their geographic distribution and language preferences.
+
+    You'll be able to see the top countries where your followers are located and understand how diverse your audience is through the Geographic Diversity Index. This index is essential for gauging how well your content resonates across different regions.
+
+    Additionally, the app provides a detailed analysis of demographic attributes, including the most common languages spoken by your followers. You'll also find a heatmap showing the gender ratio and geographic distribution, giving you a clearer picture of your audience's composition.
+
+    By examining these demographics, you can tailor your content more effectively to engage with different segments of your audience, ensuring that your messaging aligns with their cultural and regional contexts.
+    """)
+
     # Part 1
     st.markdown("<hr>", unsafe_allow_html=True)
 
@@ -509,6 +519,19 @@ with st.expander("Follower Demographics"):
 
 # Add a horizontal line to separate sections
 with st.expander("Followers Quality Analysis"):
+    import streamlit as st
+
+    st.info("""
+    In this section, you’ll explore detailed insights into your follower demographics and geographic distribution, which can help you understand the diversity and authenticity of your audience.
+
+    You'll see the distribution of your top follower countries and how it contributes to the 'Top Follower Countries Geographic Diversity Index.'
+
+    Additionally, the Followers Quality Analysis will provide a breakdown of fake followers, including the Fake Follower Ratio and the percentage of Suspicious Follower Accounts. You’ll also find a summary of accounts flagged as suspicious based on various metrics.
+
+    For example, a higher-than-average Fake Follower Ratio or Suspicion Score Distribution may indicate that a portion of your followers are not genuine. Identifying inactive followers and suspicious accounts can help you maintain a more authentic and engaged audience.
+
+    Click the button above to view more details and download the full list of flagged accounts.
+    """)
 
 
     st.subheader("Fake followers Detection")
