@@ -1,5 +1,13 @@
 import csv
 from collections import Counter
+import pycountry
+
+def get_country_code(country_name):
+    try:
+        country = pycountry.countries.lookup(country_name)
+        return country.alpha_2  # Return the 2-letter country code
+    except LookupError:
+        return None  # Country name not found
 
 def read_csv_and_create_data_structure(csv_filename):
     csv_file_path = f'{csv_filename}'  # Path to the CSV file

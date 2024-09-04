@@ -11,11 +11,13 @@ import requests
 import base64
 import os
 from scraper import *
+from mapsData import *
 from scraperPost import *
 from AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
 from FollowerEngagementMetrics import *
 from main2 import extract_user_data
 from parse_scraper import read_csv_and_create_data_structure
+
 def display_markdown(value):
     st.markdown(
         f"""
@@ -388,47 +390,48 @@ with st.expander("Follower Demographics"):
 
     with col6:
         # Sample data
-        data = {
-            'latitude': [37.7749, 34.0522, 40.7128],  # Example latitudes
-            'longitude': [-122.4194, -118.2437, -74.0060],  # Example longitudes
-            'region': ['San Francisco', 'Los Angeles', 'New York'],  # Example regions
-            'diversity_index': [0.75, 0.60, 0.90]  # Example diversity index values
-        }
+        data = DataMaps()
 
+        map_data = pd.DataFrame(data)
         df = pd.DataFrame(data)
         st.markdown("### Geographic Diversity Index")
 
         st.write("This app visualizes the 'Top Follower Countries Geographic Diversity Index'.")
     
         # Create a pydeck Deck object for the choropleth map
-        map = pdk.Deck(
-            initial_view_state=pdk.ViewState(
-                latitude=df['latitude'].mean(),
-                longitude=df['longitude'].mean(),
-                zoom=4,
-                pitch=0
-            ),
-            layers=[
-                pdk.Layer(
-                    'HexagonLayer',
-                    data=df,
-                    get_position=['longitude', 'latitude'],
-                    radius=1000,
-                    extruded=True,
-                    elevation_scale=50,
-                    elevation_range=[0, 1000],
-                    get_fill_color='[200, 30, 0, 160]',
-                    get_elevation='diversity_index * 1000'  # Example scaling factor
-                )
+        st.pydeck_chart(pdk.Deck(
+    map_style='mapbox://styles/mapbox/light-v9',
+    initial_view_state=pdk.ViewState(
+        latitude=30,  # Central latitude for the initial view
+        longitude=100,  # Central longitude for the initial view
+        zoom=1,
+        pitch=0,
+    ),
+    layers=[
+        pdk.Layer(
+            'HeatmapLayer',
+            data=map_data,
+            get_position=['lon', 'lat'],
+            get_weight='probability',
+            radius_pixels=60,
+            intensity=5,
+            color_range=[
+                [255, 255, 204],
+                [255, 237, 160],
+                [254, 217, 118],
+                [254, 178, 76],
+                [253, 141, 60],
+                [252, 78, 42],
+                [227, 26, 28],
+                [177, 0, 38],
+                [128, 0, 38]
             ],
-            tooltip={
-                'html': '<b>Region:</b> {region}<br><b>Diversity Index:</b> {diversity_index}',
-                'style': {'backgroundColor': 'white', 'color': 'black'}
-            }
+            threshold=0.5,
+            opacity=0.8
         )
+    ]
+))
 
-        # Render the map
-        st.pydeck_chart(map)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
