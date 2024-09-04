@@ -11,7 +11,7 @@ import requests
 import base64
 import os
 from scraper import *
-
+from scraperPost import *
 from AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
 from FollowerEngagementMetrics import *
 
@@ -176,6 +176,7 @@ def button_scrape():
     # Call the function with the user input
     api_token = "apify_api_fp9UgFVmLHW5kXOM0i0Wlch8atIwFM2g3py6"  # Replace with your actual API token
     fetch_instagram_data(st.session_state.username, api_token)
+    scrape_posts(st.session_state.username)
 # Load the image from a local file
 image = Image.open("logo.png")
 # Page configuration
