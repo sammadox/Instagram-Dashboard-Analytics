@@ -49,7 +49,12 @@ def get_followers_growth_from_file(file_path):
             # Check if data is a list and has at least one item
             if isinstance(data, list) and len(data) > 0:
                 # Extract the first item from the list
-                post_info = data[0]['latestPosts']
+                try:
+                    if data[0]['latestPosts']:
+                        post_info = data[0]['latestPosts']
+                except:
+                    pass
+
             L=[]
             for i in range(len(post_info)):
                 try:
@@ -57,7 +62,10 @@ def get_followers_growth_from_file(file_path):
                         pass
                 except:
                     L.append(post_info[i]['likesCount'])
-    return(average_growth_rate(L))
+    if len(L)==0:
+        return(0)
+    else:
+        return(average_growth_rate(L))
 
 def calculate_followers_lost_and_turnover(actual_growth_rate, standard_growth_rate, initial_followers):
     # Calculate expected new followers based on the standard growth rate

@@ -45,8 +45,4 @@ def get_language_from_country_code(country_code):
     except Exception as e:
         return str(e)
 
-# Example usage
-print(get_language_from_country_code("FR"))  # Output: French
-print(get_language_from_country_code("CN"))  # Output: Chinese
-print(get_language_from_country_code("IN"))  # Output: Hindi
-print(get_language_from_country_code("RU"))  # Output: Russian
+

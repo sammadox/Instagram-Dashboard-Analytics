@@ -510,7 +510,6 @@ with st.expander("Follower Demographics"):
         rcParams['font.family'] = 'Arial'  # Set font family
         rcParams['font.size'] = 12  # Set font size
 
-
         # Generate the heatmap
         fig, ax = plt.subplots(figsize=(8, 6))
 

@@ -155,7 +155,8 @@ def extract_posts(file_path):
             # Check if data is a list and has at least one item
             if isinstance(data, list) and len(data) > 0:
                 # Extract the first item from the list
-                post_info = data[0]['latestPosts']
+                if data[0]['latestPosts']:
+                    post_info = data[0]['latestPosts']
             L=[]
             for i in range(len(post_info)):
                 try:
@@ -169,14 +170,5 @@ def extract_posts(file_path):
                     H.append(post_info[i]['caption'])
                     L.append(H)
     return(L)
-
-
-# Example usage:
-L = extract_posts('data.json')
-
-top_posts = top_three_posts(L)
-print(top_posts)
-
-
 
 
