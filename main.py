@@ -15,7 +15,7 @@ from mapsData import *
 from scraperPost import *
 from AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
 from FollowerEngagementMetrics import *
-from main2 import extract_user_data
+from main2 import extract_user_data,process_csv_file
 from parse_scraper import read_csv_and_create_data_structure
 from col7 import *
 def display_markdown(value):
@@ -153,7 +153,7 @@ def button_action():
     st.session_state.geoData=read_csv_and_create_data_structure('user_data.csv')
     st.session_state.FollowerCount= get_followers_count_from_file('data.json')  # Change this to whatever new text you want
     st.session_state.FollowerGrowthRate = get_followers_growth_from_file('data.json') 
-
+    st.session_state.genderageratio=process_csv_file('user_data.csv')
     #Load Needed data
 
     actual_growth_rate=percentage_to_number(get_followers_growth_from_file('data.json'))
@@ -492,11 +492,7 @@ with st.expander("Follower Demographics"):
     # Example data
     # Example data
         st.markdown("### Gender Ratio and geo Distribution Heatmap")
-        data = {
-            'Age Group': ['20-29', '20-29', '30-39', '30-39', '40-49', '40-49'],
-            'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
-            'Count': [50, 45, 60, 55, 70, 65]
-        }
+        data = st.session_state.genderageratio
 
         df = pd.DataFrame(data)
 

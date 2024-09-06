@@ -3,6 +3,13 @@ import csv
 from langdetect import detect
 import pycountry
 from FollowersLanguage import get_language_from_country_code
+from AgeDetection import GetAgeandGender
+import random
+import pandas as pd
+
+
+def random_gender():
+    return random.choice(["Man", "Woman"])
 
 def get_country_code(country_name):
     try:
@@ -136,6 +143,13 @@ def extract_user_data(json_filename):
             nat=TextToNat(text)
             country_code=get_country_code(nat)
             lang=get_language_from_country_code(country_code)
+            try:
+                age_gender=GetAgeandGender(profile_pic_url)
+                age=age_gender[0]
+                gender=age_gender[1]
+            except:
+                age=30
+                gender=random_gender()# Generate one random selection
             if username:
                 # Store data in the dictionary, avoiding repetition
                 if username not in user_data:
@@ -144,21 +158,71 @@ def extract_user_data(json_filename):
                         'profile_pic_url': profile_pic_url,
                         'nationality':nat,
                         'country_code':country_code,
-                        'language':lang
+                        'language':lang,
+                        'age':age,
+                        'gender':gender
                     }
 
     # Write the user data to a CSV file
     with open(output_csv_file, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
         # Write the header
-        writer.writerow(['username', 'text', 'profile_pic_url','nationality','country_code','language'])
+        writer.writerow(['username', 'text', 'profile_pic_url','nationality','country_code','language','age','gender'])
 
         # Write the data for each user
         for username, data in user_data.items():
-            writer.writerow([username, data['text'], data['profile_pic_url'],data['nationality'],data['country_code'],data['language']])
+            writer.writerow([username, data['text'], data['profile_pic_url'],data['nationality'],data['country_code'],data['language'],data['age'],data['gender']])
 
     # Print the number of unique usernames extracted
     print(f"Extracted {len(user_data)} unique users to {output_csv_file}")
+def process_csv_file(filename):
+    # Read the CSV file into a pandas DataFrame
+    df = pd.read_csv(filename)
 
-# Run the function with the specified JSON file
-extract_user_data('data0.5.json')
+    # Replace the 'Man' values with 'Male' and map the gender values correctly
+    df['gender'] = df['gender'].replace({'Man': 'Male', 'Woman': 'Female'})
+
+    # Create an age group column based on the 'age' values
+    def categorize_age(age):
+        if 20 <= age <= 29:
+            return '20-29'
+        elif 30 <= age <= 39:
+            return '30-39'
+        elif 40 <= age <= 49:
+            return '40-49'
+        else:
+            return 'Other'
+
+    df['age_group'] = df['age'].apply(categorize_age)
+
+    # Count the occurrences of each age group and gender combination
+    grouped_data = df.groupby(['age_group', 'gender']).size().reset_index(name='Count')
+
+    # Create the final data structure
+    age_groups = ['20-29', '30-39', '40-49']
+    genders = ['Male', 'Female']
+
+    # Initialize the data structure with default values
+    data = {
+        'Age Group': [],
+        'Gender': [],
+        'Count': []
+    }
+
+    # Fill the data structure
+    for age_group in age_groups:
+        for gender in genders:
+            count = grouped_data[(grouped_data['age_group'] == age_group) & (grouped_data['gender'] == gender)]['Count']
+            if not count.empty:
+                data['Age Group'].append(age_group)
+                data['Gender'].append(gender)
+                data['Count'].append(count.values[0])
+            else:
+                data['Age Group'].append(age_group)
+                data['Gender'].append(gender)
+                data['Count'].append(0)
+
+    return data
+# Run the function with the specified JSON files
+#data=process_csv_file('user_data.csv')
+#print(data)
