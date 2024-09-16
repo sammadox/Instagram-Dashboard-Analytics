@@ -8,3 +8,4 @@ Pillow
 requests
 apify-client
 langdetect
+pycountry
