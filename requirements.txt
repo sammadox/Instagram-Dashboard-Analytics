@@ -10,3 +10,4 @@ apify-client
 langdetect
 pycountry
 deepface
+opencv-python
