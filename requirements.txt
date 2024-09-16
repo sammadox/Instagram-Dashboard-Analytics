@@ -7,3 +7,4 @@ seaborn
 Pillow
 requests
 apify-client
+langdetect
