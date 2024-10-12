@@ -1,3 +1,4 @@
+#Python Imports
 import streamlit as st
 import altair as alt
 import pandas as pd
@@ -10,14 +11,17 @@ from io import BytesIO
 import requests
 import base64
 import os
-from scraper import *
-from mapsData import *
-from scraperPost import *
-from AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
-from FollowerEngagementMetrics import *
-from main2 import extract_user_data,process_csv_file
-from parse_scraper import read_csv_and_create_data_structure
-from col7 import *
+from scripts.scraper import *
+from scripts.mapsData import *
+from scripts.scraperPost import *
+#Custom Modules Imports
+#Followers Overview
+from scripts.AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
+from scripts.FollowerEngagementMetrics import *
+#
+from scripts.main2 import extract_user_data,process_csv_file
+from scripts.parse_scraper import read_csv_and_create_data_structure
+from scripts.color_palette import *
 def display_markdown(value):
     st.markdown(
         f"""
@@ -146,7 +150,7 @@ if 'post3like' not in st.session_state:
     st.session_state.post3like = "-"
 
 
-
+#Run Analysis Button 
 def button_action():
     extract_user_data('data0.5.json')
     st.session_state.geoData=''
@@ -174,7 +178,8 @@ def button_action():
     #col4
     average_likes = get_average_like_from_file('data.json')
     total_followers = string_to_number(get_followers_count_from_file('data.json'))
-   
+
+#Scrape Button   
 def button_scrape():
     if os.path.exists('data.json'):
         os.remove('data.json')
@@ -595,6 +600,9 @@ with st.expander("Followers Quality Analysis"):
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.subheader("Inactive Follower Identification")
 
+#Add a History of Processed account as well as how much time it took for each
+with st.expander("Analyis History"):
+    st.write("Asdf          *32.2s*")
 
 
 
