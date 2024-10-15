@@ -2,8 +2,8 @@ import json
 import csv
 from langdetect import detect
 import pycountry
-from FollowersLanguage import get_language_from_country_code
-from AgeDetection import GetAgeandGender
+from .Modules.FollowersLanguage import get_language_from_country_code
+from .Modules.AgeDetection import GetAgeandGender
 import random
 import pandas as pd
 

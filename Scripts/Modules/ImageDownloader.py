@@ -16,7 +16,7 @@ def save_image_locally(image_data, file_name):
     try:
         image = Image.open(image_data)
         image.save(file_name, format='JPEG')  # Save as JPEG
-        st.success(f"Image saved as {file_name}")
+     
     except Exception as e:
         st.error(f"Error saving image: {e}")
 

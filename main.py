@@ -11,17 +11,19 @@ from io import BytesIO
 import requests
 import base64
 import os
-from scripts.scraper import *
-from scripts.mapsData import *
-from scripts.scraperPost import *
 #Custom Modules Imports
-#Followers Overview
-from scripts.AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
-from scripts.FollowerEngagementMetrics import *
-#
-from scripts.main2 import extract_user_data,process_csv_file
-from scripts.parse_scraper import read_csv_and_create_data_structure
-from scripts.color_palette import *
+#Scraping scripts
+from Scripts.scraper import *
+from Scripts.mapsData import *
+from Scripts.scraperPost import *
+#Data Anlytics scripts
+#Section 1
+from Scripts.AccountsFollowersMetrics import get_followers_count_from_file,get_followers_growth_from_file,percentage_to_number,string_to_number,calculate_followers_lost_and_turnover,to_percentage,calculate_ratio,get_following_count_from_file
+from Scripts.FollowerEngagementMetrics import *
+#Section 2
+from Scripts.main2 import extract_user_data,process_csv_file
+from Scripts.parse_scraper import read_csv_and_create_data_structure
+from Scripts.color_palette import *
 def display_markdown(value):
     st.markdown(
         f"""
@@ -188,7 +190,7 @@ def button_scrape():
     fetch_instagram_data(st.session_state.username, api_token)
     scrape_posts(st.session_state.username)
 # Load the image from a local file
-image = Image.open("logo.png")
+image = Image.open("assets\logo.png")
 # Page configuration
 st.set_page_config(page_title="Follower Overview", layout="wide")
 

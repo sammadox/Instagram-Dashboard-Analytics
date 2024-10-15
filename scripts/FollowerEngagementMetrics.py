@@ -1,5 +1,5 @@
 import json
-from AccountsFollowersMetrics import get_followers_count_from_file,string_to_number
+
 #Main Utils
 #Average Likes per post
 def get_average_like_from_file(file_path):
