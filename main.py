@@ -213,7 +213,22 @@ with st.sidebar:
     user_input = st.text_input("URL:", placeholder="Instagram URL or Username")
     st.session_state.username=user_input
     # Create a drag-and-drop file uploader
+    # Create folder path if it doesn't exist
+    upload_folder = "InstagramExports"
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder)
+    # Check if a file has been uploaded
+
     uploaded_file = st.file_uploader("Upload your follower CSV Followers (Optional)", type=["csv"])
+    if uploaded_file is not None:
+        # Save the uploaded file to the desired folder
+        file_path = os.path.join(upload_folder, uploaded_file.name)
+        
+        # Save the file to the directory
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+        
+        st.success(f"File saved successfully: {file_path}")
     analysis_type = st.radio(
     "Select Analysis Type:",
     ("Light Analysis", "Deep Analysis")

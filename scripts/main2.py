@@ -125,6 +125,8 @@ def TextToNat(text):
     return(nationality)
 
 def extract_user_data(json_filename):
+    ff_list=[]
+
     json_file_path = f'{json_filename}'  # Path to the JSON file
     output_csv_file = 'user_data.csv'  # Output CSV file in the same directory
 
@@ -149,7 +151,9 @@ def extract_user_data(json_filename):
                 gender=age_gender[1]
             except:
                 age=30
-                gender=random_gender()# Generate one random selection
+                gender=random_gender()
+                ff_list.append(comment.get("ownerUsername"))
+                print(ff_list)# Generate one random selection
             if username:
                 # Store data in the dictionary, avoiding repetition
                 if username not in user_data:
@@ -175,6 +179,8 @@ def extract_user_data(json_filename):
 
     # Print the number of unique usernames extracted
     print(f"Extracted {len(user_data)} unique users to {output_csv_file}")
+    print(len(ff_list))
+    print(len(user_data))
 def process_csv_file(filename):
     # Read the CSV file into a pandas DataFrame
     df = pd.read_csv(filename)

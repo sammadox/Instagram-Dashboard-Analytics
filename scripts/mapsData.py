@@ -1,5 +1,15 @@
 import pandas as pd
-def get_lat_long(country_code, csv_file='countries.csv'):
+import os
+def get_static_dynamic_file_path(DataType,filename):
+    # Get the current script's directory
+    script_dir = os.path.dirname(__file__)
+    
+    # Construct the relative path to the file in the 'static' folder inside 'data'
+    file_path = os.path.join(script_dir, '..', 'data', DataType, filename)
+    
+    # Normalize the path
+    return os.path.abspath(file_path)
+def get_lat_long(country_code, csv_file=get_static_dynamic_file_path('static','countries.csv')):
     # Read the CSV file into a DataFrame
     df = pd.read_csv(csv_file)
     
@@ -48,3 +58,4 @@ def DataMaps(filename='user_data.csv'):
     'probability': percentages
 }
     return(data)
+
